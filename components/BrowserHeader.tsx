@@ -32,9 +32,16 @@ export default function BrowserHeader({
   canGoForward,
   loading,
 }: BrowserHeaderProps) {
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(url);
   const [showMenu, setShowMenu] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  // Update searchText when url changes and not editing
+  React.useEffect(() => {
+    if (!isEditing) {
+      setSearchText(url);
+    }
+  }, [url, isEditing]);
 
   const handleSubmit = () => {
     if (searchText.trim()) {
@@ -45,12 +52,10 @@ export default function BrowserHeader({
 
   const handleFocus = () => {
     setIsEditing(true);
-    setSearchText(url);
   };
 
   const handleBlur = () => {
     setIsEditing(false);
-    setSearchText('');
   };
 
   const getSecurityIcon = () => {

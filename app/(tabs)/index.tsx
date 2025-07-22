@@ -13,11 +13,18 @@ import { useBrowserStore } from '@/store/browserStore';
 
 export default function HomeTab() {
   const webViewRef = useRef<WebView>(null);
-  const [currentUrl, setCurrentUrl] = useState('https://www.google.com');
   const [canGoBack, setCanGoBack] = useState(false);
   const [canGoForward, setCanGoForward] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { addToHistory, currentTab, updateTab } = useBrowserStore();
+  const { addToHistory, currentTab, updateTab, setActiveTab } = useBrowserStore();
+  const [currentUrl, setCurrentUrl] = useState(currentTab?.url || 'https://www.google.com');
+
+  // Update URL when current tab changes
+  useEffect(() => {
+    if (currentTab?.url && currentTab.url !== currentUrl) {
+      setCurrentUrl(currentTab.url);
+    }
+  }, [currentTab]);
 
   const handleNavigationStateChange = (navState: any) => {
     setCurrentUrl(navState.url);

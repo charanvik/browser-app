@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Plus, X, Globe } from 'lucide-react-native';
 import { useBrowserStore } from '@/store/browserStore';
+import { router } from 'expo-router';
 
 export default function TabsScreen() {
   const { tabs, activeTabId, createTab, closeTab, setActiveTab } = useBrowserStore();
@@ -24,6 +25,8 @@ export default function TabsScreen() {
 
   const handleSelectTab = (tabId: string) => {
     setActiveTab(tabId);
+    // Navigate to home tab to show the selected tab
+    router.navigate('/(tabs)');
   };
 
   const getFavicon = (url: string) => {
